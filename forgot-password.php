@@ -21,6 +21,7 @@
                     <div class="form-group">
                         <input type="email" name="" id="email" class="form-control" placeholder="Email">
                     </div>
+                    <p id="feedback"></p>
                     <button type="button" class="btn btn-primary px-5">Reset Password</button>
                 </form>
             </div>
