@@ -16,6 +16,7 @@
     // Connect to database
     try {
         $pdo = new PDO($dsn, $user, $password, $options);
+
    }  catch (PDOException $e) {
     exit('Connection Error: ' .$e->getMessage(). ',' .(int)$e->getCode());
 }

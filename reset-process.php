@@ -1,6 +1,7 @@
 <?php
-// require Database
-require_once 'db.php';
+	// require Database
+	require_once 'db.php';
+	require_once 'functions.php';
 
 	// Import PHPMailer classes into the global namespace
 	// These must be at the top of your script, not inside a function
@@ -10,6 +11,7 @@ require_once 'db.php';
 	// Load Composer's autoloader
 	require 'vendor/autoload.php';
 
+	// Mail function
 	function sendMail($email, $token) {
 		try {
 			// Instantiation and passing `true` enables exceptions
@@ -42,8 +44,8 @@ require_once 'db.php';
 			$body = "
 				Hi, <br><br>
 				In order to reset your password, please click on the link below: <br>
-				<a href='http://devbox.com/forgotPasswordSystem/forgot-password.php?email=$email&token=$token'>
-					http://devbox.com/forgotPasswordSystem/forgot-password.php?email=$email&token=$token
+				<a href='http://devbox.com/forgotPasswordSystem/reset-password.php?email=$email&token=$token'>
+					http://devbox.com/forgotPasswordSystem/reset-password.php?email=$email&token=$token
 				</a> <br><br>
 				Kind Regards, <br>
 				Andres G.
@@ -55,7 +57,6 @@ require_once 'db.php';
 
 		 	// Send mail
 			if ($mail->send()) {
-				// Send mail
 					exit(json_encode(
 						array(
 							'status' => 1,
@@ -63,6 +64,7 @@ require_once 'db.php';
 						)
 					));
 			} else {
+
 				// Send mail Error
 			}exit(json_encode(
 				array(
@@ -93,10 +95,8 @@ require_once 'db.php';
 
 		// Verify Email existence
 		if ($userInfo) {
-			// Generate token
-			$token = 'lojefljeoijfijfike545415';
-			$token = str_shuffle($token);
-			$token = substr($token, 0,10);
+			// Generate Token
+			$token = generateNewString();
 
 			// Update Database with token and token expiration time
 			$sql = ' UPDATE users SET token = :token,

@@ -6,7 +6,7 @@ $(document).ready(function() {
 			emailEl.css('border', '1px solid green');
 
 			$.ajax({
-				url: 'process.php',
+				url: 'reset-process.php',
 				method: 'POST',
 				dataType: 'json',
 				data: {
