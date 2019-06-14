@@ -7,7 +7,7 @@
         return $token;
     }
 
-    function redirectToLoginPage() {
-        header('Location: forgot-password.php');
+    function redirect($url) {
+        header('Location:'.$url. '.php');
         exit();
     }
