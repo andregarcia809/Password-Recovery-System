@@ -19,6 +19,9 @@
         $email = validate($_POST['email']);
         $pass = validate($_POST['password']);
 
+        // hash password
+        $hash_password = password_hash($pass, PASSWORD_BCRYPT);
+
         $host = 'localhost';
         $user = 'root';
         $password = '';
@@ -49,7 +52,7 @@
                     VALUES(:name, :email, :password)
                     ';
                     $stmt = $pdo->prepare($sql);
-                    $accountCreated =  $stmt->execute(['name' => $fullName, 'email' => $email, 'password' => $pass]);
+                    $accountCreated =  $stmt->execute(['name' => $fullName, 'email' => $email, 'password' => $hash_password]);
 
                     exit(json_encode(
                         array(
@@ -102,7 +105,7 @@
             )));
         }
 
-        //Validate Emails
+        //Validate Email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = true;
             exit(json_encode(

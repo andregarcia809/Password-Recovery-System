@@ -1,5 +1,5 @@
 </main>
-<footer class="text-center mt-5">
+<footer class="text-center mt-3">
     <p>Made with <span>&#10084;</span> by Andres Garcia</p>
 </footer>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"

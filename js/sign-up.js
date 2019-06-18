@@ -87,6 +87,14 @@ $(document).ready(function() {
 									.addClass('invalid-feedback text_medium')
 									.css('display', 'block');
 								break;
+							case 'wrong password':
+								removeErrorClass();
+								mainFeedbackEl
+									.html(response.registeredMsg)
+									.removeClass('invalid-feedback')
+									.addClass('invalid-feedback text_medium')
+									.css('display', 'block');
+								break;
 							case 'database':
 								removeErrorClass();
 								mainFeedbackEl
@@ -109,4 +117,140 @@ $(document).ready(function() {
 				});
 		}
 	});
+
+	// Login
+	$('#loginBtn').on('click', function() {
+		var loginForm = $('#login-form');
+		var loginEmailEl = $('#loginEmail');
+		var loginPasswordEl = $('#loginPassword');
+
+		// check for empty Fields
+		if (emptyFields(loginEmailEl) || emptyFields(loginPasswordEl)) {
+			// fail validation
+			loginForm.addClass('was-validated');
+		} else {
+			// validated
+			$.ajax({
+				url: 'login-process.php',
+				method: 'POST',
+				dataType: 'json',
+				data: loginForm.serialize()
+			})
+				.done(function(response) {
+					console.log(response);
+					// Handle errors
+					if (response.error) {
+						form.removeClass('was-validated');
+						error = response.error;
+						switch (error) {
+							case 'email error':
+								removeErrorClass();
+								loginEmailEl.addClass('is-invalid');
+								$('.email_error').html(response.errorMsg);
+								break;
+							case 'email not found':
+								removeErrorClass();
+								mainFeedbackEl
+									.html(response.loginMsg)
+									.removeClass('invalid-feedback')
+									.addClass('invalid-feedback text_medium')
+									.css('display', 'block');
+							case 'wrong password':
+								removeErrorClass();
+								mainFeedbackEl
+									.html(response.loginMsg)
+									.removeClass('invalid-feedback')
+									.addClass('invalid-feedback text_medium')
+									.css('display', 'block');
+								break;
+							case 'database':
+								removeErrorClass();
+								mainFeedbackEl
+									.html(response.databaseMsg)
+									.removeClass('invalid-feedback')
+									.addClass('invalid-feedback text_medium')
+									.css('display', 'block');
+								break;
+							default:
+								error = 0;
+						}
+					} else {
+						// No errors
+						loginForm[0].reset();
+						redirect('dashboard');
+					}
+				})
+				.fail(function(jqXHR) {
+					console.log('Request Failed: ' + jqXHR.textStatus);
+				});
+		}
+	});
+
+		// Searcher
+		$('#searchBtn').on('click', function() {
+			var searchForm = $('#login-form');
+			var loginEmailEl = $('#loginEmail');
+			var loginPasswordEl = $('#loginPassword');
+	
+			// check for empty Fields
+			if (emptyFields(loginEmailEl) || emptyFields(loginPasswordEl)) {
+				// fail validation
+				searchForm.addClass('was-validated');
+			} else {
+				// validated
+				$.ajax({
+					url: 'login-process.php',
+					method: 'POST',
+					dataType: 'json',
+					data: searchForm.serialize()
+				})
+					.done(function(response) {
+						console.log(response);
+						// Handle errors
+						if (response.error) {
+							form.removeClass('was-validated');
+							error = response.error;
+							switch (error) {
+								case 'email error':
+									removeErrorClass();
+									loginEmailEl.addClass('is-invalid');
+									$('.email_error').html(response.errorMsg);
+									break;
+								case 'email not found':
+									removeErrorClass();
+									mainFeedbackEl
+										.html(response.loginMsg)
+										.removeClass('invalid-feedback')
+										.addClass('invalid-feedback text_medium')
+										.css('display', 'block');
+								case 'wrong password':
+									removeErrorClass();
+									mainFeedbackEl
+										.html(response.loginMsg)
+										.removeClass('invalid-feedback')
+										.addClass('invalid-feedback text_medium')
+										.css('display', 'block');
+									break;
+								case 'database':
+									removeErrorClass();
+									mainFeedbackEl
+										.html(response.databaseMsg)
+										.removeClass('invalid-feedback')
+										.addClass('invalid-feedback text_medium')
+										.css('display', 'block');
+									break;
+								default:
+									error = 0;
+							}
+						} else {
+							// No errors
+							loginForm[0].reset();
+							redirect('dashboard');
+						}
+					})
+					.fail(function(jqXHR) {
+						console.log('Request Failed: ' + jqXHR.textStatus);
+					});
+			}
+		});
 });
