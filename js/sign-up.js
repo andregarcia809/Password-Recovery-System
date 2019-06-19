@@ -186,71 +186,59 @@ $(document).ready(function() {
 		}
 	});
 
-		// Searcher
-		$('#searchBtn').on('click', function() {
-			var searchForm = $('#login-form');
-			var loginEmailEl = $('#loginEmail');
-			var loginPasswordEl = $('#loginPassword');
-	
-			// check for empty Fields
-			if (emptyFields(loginEmailEl) || emptyFields(loginPasswordEl)) {
-				// fail validation
-				searchForm.addClass('was-validated');
-			} else {
-				// validated
-				$.ajax({
-					url: 'login-process.php',
-					method: 'POST',
-					dataType: 'json',
-					data: searchForm.serialize()
-				})
-					.done(function(response) {
-						console.log(response);
-						// Handle errors
-						if (response.error) {
-							form.removeClass('was-validated');
-							error = response.error;
-							switch (error) {
-								case 'email error':
-									removeErrorClass();
-									loginEmailEl.addClass('is-invalid');
-									$('.email_error').html(response.errorMsg);
-									break;
-								case 'email not found':
-									removeErrorClass();
-									mainFeedbackEl
-										.html(response.loginMsg)
-										.removeClass('invalid-feedback')
-										.addClass('invalid-feedback text_medium')
-										.css('display', 'block');
-								case 'wrong password':
-									removeErrorClass();
-									mainFeedbackEl
-										.html(response.loginMsg)
-										.removeClass('invalid-feedback')
-										.addClass('invalid-feedback text_medium')
-										.css('display', 'block');
-									break;
-								case 'database':
-									removeErrorClass();
-									mainFeedbackEl
-										.html(response.databaseMsg)
-										.removeClass('invalid-feedback')
-										.addClass('invalid-feedback text_medium')
-										.css('display', 'block');
-									break;
-								default:
-									error = 0;
-							}
-						} else {
-							// No errors
-							loginForm[0].reset();
-							redirect('dashboard');
+	// Searcher
+	$('#searchBtn').on('click', function() {
+		var searchForm = $('#searchForm');
+		var queryEl = $('#query');
+
+		// check for empty Fields
+		if (emptyFields(queryEl)) {
+			// fail validation
+			searchForm.addClass('was-validated');
+		} else {
+			// validated
+			$.ajax({
+				url: 'search-process.php',
+				method: 'POST',
+				dataType: 'json',
+				data: searchForm.serialize()
+			})
+				.done(function(response) {
+					console.log(response);
+					// Handle errors
+					if (response.error) {
+						form.removeClass('was-validated');
+						error = response.error;
+						switch (error) {
+							case 'empty':
+								removeErrorClass();
+								mainFeedbackEl.addClass('text_medium').css('display', 'block');
+								break;
+							case 'colleagues not found':
+								removeErrorClass();
+								mainFeedbackEl
+									.html(response.errorMsg)
+									.addClass('text_medium')
+									.css('display', 'block');
+								break;
+							default:
+								error = 0;
 						}
-					})
-					.fail(function(jqXHR) {
-						console.log('Request Failed: ' + jqXHR.textStatus);
-					});
-			}
-		});
+					} else {
+						// No errors
+						searchForm[0].reset();
+						$.each(response, function() {
+							console.log(response[1].lastName);
+							// mainFeedbackEl
+							// 	.html(key)
+							// 	.addClass('text_medium')
+							// 	.css('display', 'block');
+						});
+					}
+				})
+				.fail(function(jqXHR) {
+					console.log('Request Failed: ' + jqXHR.textStatus);
+				});
+		}
+	});
 });

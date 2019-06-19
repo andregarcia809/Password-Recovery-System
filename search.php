@@ -4,8 +4,8 @@
         <div class="col-md-9 mx-auto">
             <h1 class="mb-3 ml-3">Searcher</h1>
             <form class="needs-validation card text-left alert alert-primary" id="searchForm" novalidate>
-                <div class="invalid-feedback text-center" id="main_feedback">
-                    Fields cannot be empty.
+                <div class="invalid-feedback text-center my-2" id="main_feedback">
+                    Please enter a First Name, Last Name or Email.
                 </div>
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-7">
@@ -21,7 +21,7 @@
                         </select>
                     </div>
                     <div class="col-md-1">
-                        <button type="submit"
+                        <button type="button"
                             class="btn alert alert-info w-100 text-center d-flex justify-content-center m-0"
                             id="searchBtn">
                             <i class="fas fa-search"></i>
